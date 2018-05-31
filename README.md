@@ -1,4 +1,4 @@
-# Proyecto de Domótica en Python
+# Proyecto de Back en Node.js
 ##Por Raúl Pavón Plata.
 
 ## ¿En qué consiste el proyecto?

@@ -1,0 +1,20 @@
+{
+  "name": "CMS app",
+  "version": "1.0.0",
+  "description": "Small CMS application using node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DAWZayas-Projects/PAVON-PLATA-RAUL.git"
+  },
+  "author": "Raúl Pavón",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DAWZayas-Projects/PAVON-PLATA-RAUL/issues"
+  },
+  "homepage": "https://github.com/DAWZayas-Projects/PAVON-PLATA-RAUL#readme",
+  "dependencies": {}
+}
