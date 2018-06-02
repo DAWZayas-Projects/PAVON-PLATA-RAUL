@@ -1,0 +1,41 @@
+<div class="card card-register mx-auto mt-5">
+    <div class="card-header">Register an Account</div>
+    <div class="card-body">
+        <form action="/register" method="post">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="exampleInputName">Nombre</label>
+                        <input name="firstName" class="form-control" id="exampleInputName" type="text" aria-describedby="nameHelp" placeholder="Introduzca nombre">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleInputLastName">Apellidos</label>
+                        <input name="lastName" class="form-control" id="exampleInputLastName" type="text" aria-describedby="nameHelp" placeholder="Introduzca apellidos">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input name="email" class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Introduzca email">
+            </div>
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <label for="exampleInputPassword1">Contraseña</label>
+                        <input name="password" class="form-control" id="exampleInputPassword1" type="password" placeholder="Contraseña">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="exampleConfirmPassword">Confirmar contraseña</label>
+                        <input name="passwordConfirm" class="form-control" id="exampleConfirmPassword" type="password" placeholder="Confirmar contraseña">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        </form>
+        <div class="text-center">
+            <a class="d-block small mt-3" href="/login">Login</a>
+            <a class="d-block small" href="forgot-password.html">¿Olvidaste la contraseña?</a>
+            <a class="d-block small" href="/">Inicio</a>
+        </div>
+    </div>
+</div>

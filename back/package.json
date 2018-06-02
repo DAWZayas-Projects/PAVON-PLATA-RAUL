@@ -16,5 +16,8 @@
     "url": "https://github.com/DAWZayas-Projects/PAVON-PLATA-RAUL/issues"
   },
   "homepage": "https://github.com/DAWZayas-Projects/PAVON-PLATA-RAUL#readme",
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0"
+  }
 }
