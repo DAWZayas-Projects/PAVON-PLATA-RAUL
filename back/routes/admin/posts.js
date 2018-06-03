@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
-const { isEmpty } = require('../../helpers/upload-helper');
+const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const uploadsDir = './public/uploads/';
+const fs = require('fs');
+const path = require('path');
 
 router.all('/*', (req, res, next) => {
     req.app.locals.layout = 'admin';
@@ -16,7 +18,6 @@ router.get('/', (req,res) => {
     }).catch(error => console.error(error));
 
 });
-
 
 router.get('/create', (req, res) => {
     res.render('admin/posts/create');
@@ -66,10 +67,12 @@ router.put('/edit/:id', (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    Post.findByIdAndDelete(req.params.id)
-        .then(deletedPost => {
-            console.log('Post removed: ' + deletedPost);
-            res.redirect('/admin/posts');
+    Post.findById(req.params.id)
+        .then(post => {
+            fs.unlink(uploadsDir + post.file, err => {
+                post.remove();
+                res.redirect('/admin/posts');
+            });
         }).catch(error => {
         console.error(error);
     })
