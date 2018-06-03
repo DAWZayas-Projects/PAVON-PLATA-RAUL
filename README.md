@@ -14,4 +14,5 @@ Desarrollar una pequeña aplicación funcional (sistema de autenticación y algu
 
 ## ¿Objetivos opcionales?
 
-Realizar una parte front para mostrar gráficamente cómo funciona.
+Realizar una parte front para mostrar gráficamente cómo funciona. 
+Utilizaremos una plantilla de bootstrap como aspecto visual (https://startbootstrap.com/)

@@ -1,5 +1,5 @@
 {
-  "name": "CMS app",
+  "name": "cmsapp",
   "version": "1.0.0",
   "description": "Small CMS application using node.js",
   "main": "app.js",
@@ -17,7 +17,11 @@
   },
   "homepage": "https://github.com/DAWZayas-Projects/PAVON-PLATA-RAUL#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "express-handlebars": "^3.0.0"
+    "express-handlebars": "^3.0.0",
+    "faker": "^4.1.0",
+    "method-override": "^2.3.10",
+    "mongoose": "^5.1.3"
   }
 }
