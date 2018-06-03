@@ -4,6 +4,7 @@ const expressHandlebars = require('express-handlebars');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const upload = require('express-fileupload');
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -28,6 +29,7 @@ app.engine('handlebars', expressHandlebars({defaultLayout: 'home', helpers: { se
 app.set('view engine', 'handlebars');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(upload());
 app.use(bodyParser.json(), bodyParser.urlencoded({extended: true}), bodyParser.text(), bodyParser.raw());
 app.use(methodOverride('_method'));
 
