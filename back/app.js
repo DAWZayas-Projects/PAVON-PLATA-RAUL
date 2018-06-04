@@ -5,11 +5,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const upload = require('express-fileupload');
+const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
 const port = process.env.PORT || 4000;
 
-const { select } = require('./helpers/handlebars-helpers');
+const { select, formatDate } = require('./helpers/handlebars-helpers');
 
 const home = require('./routes/home/index');
 const admin = require('./routes/admin/index');
@@ -25,13 +27,24 @@ mongoose.connect('mongodb://localhost:27017/cms')
 
 
 
-app.engine('handlebars', expressHandlebars({defaultLayout: 'home', helpers: { select }}));
+app.engine('handlebars', expressHandlebars({defaultLayout: 'home', helpers: { select, formatDate }}));
 app.set('view engine', 'handlebars');
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(upload());
-app.use(bodyParser.json(), bodyParser.urlencoded({extended: true}), bodyParser.text(), bodyParser.raw());
-app.use(methodOverride('_method'));
+
+app.use(upload(),bodyParser.json(), bodyParser.urlencoded({extended: true}), bodyParser.text(), bodyParser.raw(), methodOverride('_method'));
+
+app.use(session({
+    secret: 'EpicSaxGuy123',
+    resave: true,
+    saveUninitialized: true,
+}), flash());
+
+app.use((req,res, next) => {
+   res.locals.successMessage = req.flash('success-message');
+   res.locals.errorMessage = req.flash('error-message');
+   next();
+});
 
 app.use('/', home);
 app.use('/admin', admin);

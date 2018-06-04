@@ -1,4 +1,4 @@
-<h1>All posts</h1>
+<h1>Todos los posts</h1>
 
 <table class="table table-bordered">
     <thead>
@@ -8,6 +8,7 @@
             <th>Título</th>
             <th>Estado</th>
             <th>Permite comentarios</th>
+            <th>Fecha</th>
         </tr>
     </thead>
     <tbody>
@@ -18,12 +19,14 @@
                 <td> {{title}} </td>
                 <td> {{status}} </td>
                 <td> {{allowComments}} </td>
+                <td> {{formatDate date 'HH:mm:ss Do/MMMM/YYYY'}}</td>
                 <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info">Editar</a></td>
                 <td>
                     <form action="/admin/posts/{{id}}?_method=DELETE" method="post">
                         <button type="submit" class="btn btn-danger"> Eliminar </button>
                     </form>
                 </td>
+
             </tr>
         {{/each}}
     </tbody>

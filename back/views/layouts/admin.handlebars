@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -107,15 +107,9 @@
 
 <div class="content-wrapper">
     <div class="container-fluid">
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="index.html">Panel de control</a>
-            </li>
-            <li class="breadcrumb-item active">Página en blanco</li>
-        </ol>
         <div class="row">
             <div class="col-12">
+                {{> home/form-msgs}}
                 {{{body}}}
             </div>
         </div>
@@ -155,8 +149,8 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/jquery.easing.min.js"></script>
-
     <script src="/js/sb-admin.min.js"></script>
+
 </div>
 </body>
 

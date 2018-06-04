@@ -5,6 +5,7 @@ const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const uploadsDir = './public/uploads/';
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 
 router.all('/*', (req, res, next) => {
     req.app.locals.layout = 'admin';
@@ -24,6 +25,17 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/create', (req, res) => {
+    let errors = [];
+    if(!req.body.title || !req.body.title.trim().length){
+        errors.push( {message: 'Por favor, añada un título'});
+    }
+    if(!req.body.body || !req.body.body.trim().length) {
+        errors.push({message: 'Por favor, añada una descripción para su post'})
+    }
+    if(errors.length) {
+       return res.render('admin/posts/create', {errors});
+    }
+
     let fileName = 'placeholder.PNG';
     if(!isEmpty(req.files)) {
         let file = req.files.file;
@@ -38,13 +50,16 @@ router.post('/create', (req, res) => {
        status: req.body.status,
        allowComments: req.body.allowComments ? true : false,
        body: req.body.body,
-       file: fileName
+       file: fileName,
+       date: moment().format('HH:mm:ss DD/MMMM/YYYY')
    });
 
    newPost.save().then(savedPost => {
        console.log('Post saved: ' + savedPost);
-        res.redirect('/admin/posts');
+       req.flash('success-message', 'Post con título \''+ savedPost.title + '\' creado correctamente');
+       res.redirect('/admin/posts');
    }).catch(error => {
+       req.flash('error-message', 'No se pudo crear el post');
        console.error(error);
    })
 
@@ -57,11 +72,26 @@ router.get('/edit/:id', (req, res) => {
 });
 
 router.put('/edit/:id', (req, res) => {
-    Post.findByIdAndUpdate(req.params.id, {$set: {title: req.body.title, status: req.body.status, allowComments: req.body.allowComments ? true : false, body: req.body.body}}, {new: true})
-        .then(editedPost => {
-        console.log('Post edited: ' + editedPost);
-        res.redirect('/admin/posts');
+    Post.findById(req.params.id).then(post => {
+        let fileName = '';
+        if(!isEmpty(req.files)) {
+                let file = req.files.file;
+                fileName = Date.now()+'-'+file.name;
+                file.mv( uploadsDir + fileName, err => {
+                    if (err) console.error(err);
+                })
+        }
+
+        post.set({title: req.body.title, file: fileName || post.file, status: req.body.status, allowComments: !!req.body.allowComments, body: req.body.body, date: moment().format('HH:mm:ss DD/MMMM/YYYY')})
+        post.save().then(editedPost => {
+            req.flash('success-message', `Post con Id ${editedPost._id} editado correctamente`);
+            res.redirect('/admin/posts');
+        }).catch(error => {
+            req.flash('error-message', 'No se pudo actualizar el post');
+            console.error(error);
+        })
     }).catch(error => {
+        req.flash('error-message', 'No se pudo actualizar el post');
         console.error(error);
     })
 });
@@ -69,13 +99,22 @@ router.put('/edit/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     Post.findById(req.params.id)
         .then(post => {
-            fs.unlink(uploadsDir + post.file, err => {
+            if(post.file !== 'placeholder.PNG'){
+                fs.unlink(uploadsDir + post.file, err => {
+                    post.remove();
+                    req.flash('success-message', `Post con Id '${post._id}' eliminado`);
+                    res.redirect('/admin/posts');
+                });
+            }
+            else{
                 post.remove();
+                req.flash('success-message', `Post con Id '${post._id}' eliminado`);
                 res.redirect('/admin/posts');
-            });
+            }
         }).catch(error => {
-        console.error(error);
-    })
+            req.flash('error-message', 'No se pudo borrar el post');
+            console.error(error);
+        })
 });
 
 module.exports = router;
