@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const Category = require('../../models/Category');
 const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const uploadsDir = './public/uploads/';
 const fs = require('fs');
@@ -14,14 +15,20 @@ router.all('/*', (req, res, next) => {
 
 router.get('/', (req,res) => {
 
-    Post.find({}).then(posts => {
+    Post.find({})
+        .populate('category')
+        .then(posts => {
         return res.render('admin/posts', {posts});
     }).catch(error => console.error(error));
 
 });
 
 router.get('/create', (req, res) => {
-    res.render('admin/posts/create');
+    Category.find({}).then(categories => {
+        res.render('admin/posts/create', {categories});
+    }).catch(err=> {
+        console.error(err)
+    });
 });
 
 router.post('/create', (req, res) => {
@@ -46,9 +53,10 @@ router.post('/create', (req, res) => {
     }
 
    const newPost = new Post({
+       category: req.body.category,
        title: req.body.title,
        status: req.body.status,
-       allowComments: req.body.allowComments ? true : false,
+       allowComments: !!req.body.allowComments,
        body: req.body.body,
        file: fileName,
        date: moment().format('HH:mm:ss DD/MMMM/YYYY')
@@ -66,8 +74,10 @@ router.post('/create', (req, res) => {
 });
 
 router.get('/edit/:id', (req, res) => {
-    Post.findOne({_id: req.params.id}).then(post => {
-        res.render('admin/posts/edit', {post});
+    Post.findOne({_id: req.params.id}).populate('categories').then(post => {
+        Category.find({}).then(categories => {
+            res.render('admin/posts/edit', {post, categories});
+        }).catch(error => console.error(error));
     }).catch(error => console.error(error));
 });
 
@@ -81,12 +91,21 @@ router.put('/edit/:id', (req, res) => {
                     if (err) console.error(err);
                 })
         }
-
-        post.set({title: req.body.title, file: fileName || post.file, status: req.body.status, allowComments: !!req.body.allowComments, body: req.body.body, date: moment().format('HH:mm:ss DD/MMMM/YYYY')})
-        post.save().then(editedPost => {
+        post.set({
+            category: req.body.category,
+            title: req.body.title,
+            file: fileName || post.file,
+            status: req.body.status,
+            allowComments: !!req.body.allowComments,
+            body: req.body.body,
+            date: moment().format('HH:mm:ss DD/MMMM/YYYY')
+        });
+        post.save()
+            .then(editedPost => {
             req.flash('success-message', `Post con Id ${editedPost._id} editado correctamente`);
             res.redirect('/admin/posts');
-        }).catch(error => {
+        })
+            .catch(error => {
             req.flash('error-message', 'No se pudo actualizar el post');
             console.error(error);
         })

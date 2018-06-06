@@ -1,0 +1,23 @@
+<div class="card my-4">
+    <h5 class="card-header"> Categorías</h5>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <ul class="list-unstyled mb-0">
+                    <li>
+                        <a href="/">Todas</a>
+                    </li>
+                </ul>
+            </div>
+            {{#each categories}}
+                <div class="col-lg-4">
+                    <ul class="list-unstyled mb-0">
+                        <li>
+                            <a href="/category/{{id}}">{{name}}</a>
+                        </li>
+                    </ul>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

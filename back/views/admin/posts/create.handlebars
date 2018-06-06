@@ -10,11 +10,18 @@
         <input type="file" name="file" class="form-control-file">
     </div>
     <div class="form-group">
+        <label for="status">Categoría</label>
+        <select name="category" id="status" class="form-control">
+            {{#each categories}}
+                <option value="{{_id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group">
         <label for="status">Tipo de post</label>
         <select name="status" id="status" class="form-control">
             <option value="public">Público</option>
             <option value="private">Privado</option>
-            <option value="draft">Draft</option>
         </select>
     </div>
     <div class="form-check">

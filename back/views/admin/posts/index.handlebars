@@ -7,6 +7,7 @@
             <th>Imagen</th>
             <th>Título</th>
             <th>Estado</th>
+            <th>Categoría</th>
             <th>Permite comentarios</th>
             <th>Fecha</th>
         </tr>
@@ -18,6 +19,7 @@
                 <td> <img height="100" class="img-responsive" src="/uploads/{{file}}" alt="selectedImage"> </td>
                 <td> {{title}} </td>
                 <td> {{status}} </td>
+                <td> {{category.name}}</td>
                 <td> {{allowComments}} </td>
                 <td> {{formatDate date 'HH:mm:ss Do/MMMM/YYYY'}}</td>
                 <td><a href="/admin/posts/edit/{{id}}" class="btn btn-info">Editar</a></td>
