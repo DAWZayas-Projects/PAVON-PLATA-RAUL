@@ -16,6 +16,7 @@ const { select, formatDate } = require('./helpers/handlebars-helpers');
 const home = require('./routes/home/index');
 const admin = require('./routes/admin/index');
 const posts = require('./routes/admin/posts');
+const categories = require('./routes/admin/categories');
 
 mongoose.connect('mongodb://localhost:27017/cms')
     .then(db => {
@@ -49,6 +50,7 @@ app.use((req,res, next) => {
 app.use('/', home);
 app.use('/admin', admin);
 app.use('/admin/posts', posts);
+app.use('/admin/categories', categories);
 
 
 app.listen(port, () => {
