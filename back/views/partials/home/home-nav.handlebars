@@ -8,18 +8,39 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a href="/" class="nav-link">Home</a>
-            </li>
+            {{#if user}}
+                <li class="nav-item">
+                    <a href="/admin" class="nav-link">Admin</a>
+                </li>
+            {{/if}}
+            {{#if user}}
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+                        <i class="fa fa-fw fa-user"> </i>{{user.firstName}} <i class="fa fa-fw fa-sign-out"></i>Logout
+                    </a>
+                </li>
+            {{/if}}
             <li class="nav-item">
-                <a href="/admin" class="nav-link">Admin</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="register">Register</a>
+                <a class="nav-link" href="/login"><i class="fa fa-fw fa-sign-in"></i>Login</a>
             </li>
         </ul>
     </div>
 </nav>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">¿Seguro que quieres desconectarte?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Clica en logout para finalizar sesión.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" href="/logout">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@
 
     <link href="/css/blog-home.css" rel="stylesheet">
     <link href="/css/blog-post.css" rel="stylesheet">
+    <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
@@ -15,7 +16,14 @@
     {{> home/home-nav}}
 <!-- Contenido -->
 <div class="container">
-
+    {{#if errors}}
+        {{#each errors}}
+            <div class="alert alert-danger">
+                {{message}}
+            </div>
+        {{/each}}
+    {{/if}}
+    {{> home/form-msgs}}
     {{{body}}}
 
 </div>
