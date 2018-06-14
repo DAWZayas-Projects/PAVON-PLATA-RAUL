@@ -41,7 +41,7 @@ router.all('/*', (req, res, next) => {
 });
 
 router.get('/', (req,res) => {
-    Post.find({}).then(posts => {
+    Post.find({}).populate('author').then(posts => {
         Category.find({}).then(categories => {
             return res.render('home/index', {posts, categories});
         }).catch(err => {
@@ -55,7 +55,7 @@ router.get('/', (req,res) => {
 
 });
 router.get('/category/:id', (req, res)=>{
-    Post.find({category: req.params.id}).then(posts => {
+    Post.find({category: req.params.id}).populate('author').then(posts => {
         Category.find({}).then(categories => {
             return res.render('home/index', {posts, categories});
         }).catch(err => {
@@ -148,7 +148,7 @@ router.post('/register', (req,res) => {
 
 });
 router.get('/post/:id', (req, res) => {
-    Post.findOne({_id: req.params.id}).then(post => {
+    Post.findOne({_id: req.params.id}).populate('author').then(post => {
         Category.find({}).then(categories => {
             return res.render('home/post', {post, categories});
         }).catch(err => {

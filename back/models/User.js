@@ -21,10 +21,5 @@ const UserSchema = new Schema({
         required: true
     }
 });
-UserSchema.methods = {
-    isValidPassword: function (password) {
-
-    }
-};
 
 module.exports = mongoose.model('users', UserSchema);

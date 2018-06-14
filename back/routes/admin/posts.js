@@ -17,6 +17,7 @@ router.get('/', (req,res) => {
 
     Post.find({})
         .populate('category')
+        .populate('author')
         .then(posts => {
         return res.render('admin/posts', {posts});
     }).catch(error => console.error(error));
@@ -53,6 +54,7 @@ router.post('/create', (req, res) => {
     }
 
    const newPost = new Post({
+       author: req.user._id,
        category: req.body.category,
        title: req.body.title,
        status: req.body.status,
@@ -74,7 +76,7 @@ router.post('/create', (req, res) => {
 });
 
 router.get('/edit/:id', (req, res) => {
-    Post.findOne({_id: req.params.id}).populate('categories').then(post => {
+    Post.findOne({_id: req.params.id}).populate('category').then(post => {
         Category.find({}).then(categories => {
             res.render('admin/posts/edit', {post, categories});
         }).catch(error => console.error(error));
@@ -92,6 +94,7 @@ router.put('/edit/:id', (req, res) => {
                 })
         }
         post.set({
+            author: post.author,
             category: req.body.category,
             title: req.body.title,
             file: fileName || post.file,
