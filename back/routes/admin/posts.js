@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../../models/Post');
+const Comment = require('../../models/Comment');
 const Category = require('../../models/Category');
 const { isEmpty, uploadDir } = require('../../helpers/upload-helper');
 const uploadsDir = './public/uploads/';
@@ -14,14 +15,12 @@ router.all('/*', (req, res, next) => {
 });
 
 router.get('/', (req,res) => {
-
-    Post.find({})
-        .populate('category')
-        .populate('author')
-        .then(posts => {
-        return res.render('admin/posts', {posts});
-    }).catch(error => console.error(error));
-
+  Post.find({})
+    .populate('category')
+    .populate('author')
+    .then(posts => {
+    return res.render('admin/posts', {posts});
+  }).catch(error => console.error(error));
 });
 
 router.get('/create', (req, res) => {
@@ -120,23 +119,29 @@ router.put('/edit/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     Post.findById(req.params.id)
-        .then(post => {
-            if(post.file !== 'placeholder.PNG'){
-                fs.unlink(uploadsDir + post.file, err => {
-                    post.remove();
-                    req.flash('success-message', `Post con Id '${post._id}' eliminado`);
-                    res.redirect('/admin/posts');
-                });
-            }
-            else{
-                post.remove();
-                req.flash('success-message', `Post con Id '${post._id}' eliminado`);
-                res.redirect('/admin/posts');
-            }
-        }).catch(error => {
-            req.flash('error-message', 'No se pudo borrar el post');
-            console.error(error);
+	    .populate('comments')
+      .then(post => {
+        Comment.find({post: post._id}).then( comments => {
+          comments.forEach( comment => {
+            comment.remove();
+	        });
+	        if(post.file !== 'placeholder.PNG'){
+		        fs.unlink(uploadsDir + post.file, err => {
+			        post.remove();
+			        req.flash('success-message', `Post con Id '${post._id}' eliminado`);
+			        res.redirect('/admin/posts');
+		        });
+	        }
+	        else{
+		        post.remove();
+		        req.flash('success-message', `Post con Id '${post._id}' eliminado`);
+		        res.redirect('/admin/posts');
+	        }
         })
+      }).catch(error => {
+        req.flash('error-message', 'No se pudo borrar el post');
+        console.error(error);
+      })
 });
 
 module.exports = router;

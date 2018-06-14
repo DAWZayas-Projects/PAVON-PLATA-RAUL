@@ -3,33 +3,33 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
    author: {
-       type: Schema.Types.ObjectId,
-       ref: 'users',
-       required: true
+     type: Schema.Types.ObjectId,
+     ref: 'users',
+     required: true
    },
    category: {
-       type: Schema.Types.ObjectId,
-       ref: 'categories',
-       required: true
+     type: Schema.Types.ObjectId,
+     ref: 'categories',
+     required: true
    },
    title: {
-       type: String,
-       required: true
+     type: String,
+     required: true
    },
    status: {
-       type: String,
-       default: 'public'
+     type: String,
+     default: 'public'
    },
    allowComments: {
-        type: Boolean,
-        required: true
+      type: Boolean,
+      required: true
    },
    body: {
-        type: String,
-        required: true
+      type: String,
+      required: true
    },
     file: {
-       type: String
+      type: String
     },
     date: {
        type: Date,
@@ -39,7 +39,7 @@ const PostSchema = new Schema({
        type: Schema.Types.ObjectId,
        ref: 'comments'
     }]
-    }
+    } , {usePushEach: true}
 );
 
 module.exports = mongoose.model('posts', PostSchema);

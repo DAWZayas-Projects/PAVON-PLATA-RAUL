@@ -20,6 +20,7 @@ const home = require('./routes/home/index');
 const admin = require('./routes/admin/index');
 const posts = require('./routes/admin/posts');
 const categories = require('./routes/admin/categories');
+const comments = require('./routes/admin/comments');
 
 mongoose.connect(mongoDbUrl)
     .then(db => {
@@ -58,6 +59,8 @@ app.use('/admin', userAuthenticated);
 app.use('/admin', admin);
 app.use('/admin/posts', posts);
 app.use('/admin/categories', categories);
+app.use('/admin/comments', comments);
+
 
 
 app.listen(port, () => {

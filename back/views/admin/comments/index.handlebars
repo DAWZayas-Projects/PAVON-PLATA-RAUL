@@ -1,0 +1,27 @@
+<h1> Comentarios </h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Autor</th>
+            <th>Fecha</th>
+            <th>Texto</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each comments}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{user.firstName}} {{user.lastName}}</td>
+                <td>{{formatDate date 'HH:mm:ss Do/MMMM/YYYY'}}</td>
+                <td>{{body}}</td>
+                <td>
+                    <form action="/admin/comments/{{id}}?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
