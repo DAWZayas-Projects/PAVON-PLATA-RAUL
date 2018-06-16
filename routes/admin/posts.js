@@ -56,7 +56,6 @@ router.post('/create', (req, res) => {
        author: req.user._id,
        category: req.body.category,
        title: req.body.title,
-       status: req.body.status,
        allowComments: !!req.body.allowComments,
        body: req.body.body,
        file: fileName,
@@ -97,7 +96,6 @@ router.put('/edit/:id', (req, res) => {
             category: req.body.category,
             title: req.body.title,
             file: fileName || post.file,
-            status: req.body.status,
             allowComments: !!req.body.allowComments,
             body: req.body.body,
             date: moment().format('HH:mm:ss DD/MMMM/YYYY')

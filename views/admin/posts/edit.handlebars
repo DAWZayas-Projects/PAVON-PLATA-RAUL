@@ -15,16 +15,6 @@
             {{/select}}
         </select>
     </div>
-    <div class="form-group">
-        <label for="status">Tipo de post</label>
-        <select name="status" id="status" class="form-control" value="{{post.status}}">
-            {{#select post.status}}
-                <option value="publico">Público</option>
-                <option value="privado">Privado</option>
-            {{/select}}
-        </select>
-    </div>
-
     <div class="form-check">
         <label for="allowComments" class="form-check-label">
             <input name="allowComments" type="checkbox" class="form-check-input" id="allowComments" {{#if post.allowComments}} checked {{/if}}>
