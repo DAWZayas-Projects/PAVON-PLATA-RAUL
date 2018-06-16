@@ -15,7 +15,7 @@ router.all('/*', (req, res, next) => {
 });
 
 router.get('/', (req,res) => {
-  Post.find({})
+  Post.find({author: req.user.id})
     .populate('category')
     .populate('author')
     .then(posts => {
@@ -121,27 +121,28 @@ router.delete('/:id', (req, res) => {
     Post.findById(req.params.id)
 	    .populate('comments')
       .then(post => {
-        Comment.find({post: post._id}).then( comments => {
-          comments.forEach( comment => {
+        if(post.comments.length){
+          post.comments.forEach( comment => {
             comment.remove();
-	        });
-	        if(post.file !== 'placeholder.PNG'){
-		        fs.unlink(uploadsDir + post.file, err => {
-			        post.remove();
-			        req.flash('success-message', `Post con Id '${post._id}' eliminado`);
-			        res.redirect('/admin/posts');
-		        });
-	        }
-	        else{
-		        post.remove();
-		        req.flash('success-message', `Post con Id '${post._id}' eliminado`);
-		        res.redirect('/admin/posts');
-	        }
-        })
+          });
+        }
+        if(post.file !== 'placeholder.PNG'){
+          fs.unlink(uploadsDir + post.file, err => {
+            post.remove();
+            req.flash('success-message', `Post con Id '${post._id}' eliminado`);
+            res.redirect('/admin/posts');
+          });
+        }
+        else{
+          post.remove().then(removedPost => {
+	          req.flash('success-message', `Post con Id '${post._id}' eliminado`);
+	          res.redirect('/admin/posts');
+          });
+        }
       }).catch(error => {
-        req.flash('error-message', 'No se pudo borrar el post');
-        console.error(error);
-      })
+	    req.flash('error-message', 'No se pudo borrar el post');
+	    console.error(error);
+    })
 });
 
 module.exports = router;

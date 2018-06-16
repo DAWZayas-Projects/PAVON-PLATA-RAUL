@@ -36,8 +36,15 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) =>{
 	Comment.findByIdAndRemove({_id: req.params.id}).then( deletedComment => {
-		req.flash('success-message', '¡Comentario eliminado!');
-		res.redirect('/admin/comments');
+		Post.findOneAndUpdate({comments: req.params.id}, {$pull: {comments: req.params.id}}).then(post => {
+			req.flash('success-message', '¡Comentario eliminado!');
+			res.redirect('/admin/comments');
+		}).catch( err => {
+			console.log('No se pudo borrar el comentario.')
+			req.flash('error-message', 'No se pudo eliminar el comentario');
+			res.redirect('/admin/comments');
+		})
+
 	}).catch(err => {
 		req.flash('error-message', 'No se pudo eliminar el comentario');
 		res.redirect('/admin/comments');

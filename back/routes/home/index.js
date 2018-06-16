@@ -66,7 +66,18 @@ router.get('/category/:id', (req, res)=>{
         console.error(err)
     })
 });
-
+router.get('/author', (req, res) => {
+console.log(req.user);
+	Post.find({author: req.user._id}).populate('author').populate('comments').then(posts => {
+		Category.find({}).then(categories => {
+			return res.render('home/index', {posts, categories});
+		}).catch(err => {
+			console.error(err)
+		})
+	}).catch(error => {
+		console.error(error)
+	})
+});
 
 router.get('/login', (req,res) => {
     return res.render('home/login');
@@ -158,5 +169,7 @@ router.get('/post/:id', (req, res) => {
         console.error(error)
     })
 });
+
+
 
 module.exports = router;
