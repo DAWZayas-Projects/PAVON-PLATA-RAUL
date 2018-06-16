@@ -8,7 +8,7 @@ router.all('/*', (req, res, next) => {
 });
 
 router.get('/', (req, res) => {
-    Category.find({}).then(categories => {
+    Category.find({user: req.user.id}).then(categories => {
         return res.render('admin/categories/index', {categories})
     }).catch(error => {
         console.error(error);
