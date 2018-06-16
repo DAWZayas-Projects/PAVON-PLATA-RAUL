@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-sm-8">
         <h1>Categorias</h1>
+        {{#if}}
         <table class="table">
             <thead>
             <tr>
@@ -23,6 +24,9 @@
             {{/each}}
             </tbody>
         </table>
+        {{else}}
+            <h2>No tiene ninguna categoría.</h2>
+        {{/if}}
     </div>
     <div class="col-sm-4">
         <h1>Crear categorias</h1>

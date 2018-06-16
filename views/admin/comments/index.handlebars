@@ -1,5 +1,5 @@
 <h1> Comentarios </h1>
-
+{{#if comments}}
 <table class="table">
     <thead>
         <tr>
@@ -25,3 +25,6 @@
         {{/each}}
     </tbody>
 </table>
+{{else}}
+    <h2>No tiene ningún comentario.</h2>
+{{/if}}

@@ -1,5 +1,6 @@
 {{#each posts}}
     <div class="card mb-4">
+        <img class="card-img-top" src="/uploads/{{file}}" alt = "image">
         <div class="card-body">
             <h2 class="card-title">{{title}}</h2>
             <p class="card-text">{{body}}</p>
@@ -10,5 +11,5 @@
         </div>
     </div>
 {{else}}
-    <h2> No hay posts disponibles.</h2>
+    <h2>Actualmente no hay ningún post.</h2>
 {{/each}}

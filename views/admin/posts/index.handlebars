@@ -4,6 +4,7 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Imagen</th>
             <th>Título</th>
             <th>Categoría</th>
             <th>Permite comentarios</th>
@@ -14,6 +15,7 @@
         {{#each posts}}
             <tr>
                 <td> {{id}} </td>
+                <td> <img height="100" class="img-responsive" src="/uploads/{{file}}" alt="selectedImage"> </td>
                 <td> {{title}} </td>
                 <td> {{category.name}}</td>
                 <td> {{allowComments}} </td>
