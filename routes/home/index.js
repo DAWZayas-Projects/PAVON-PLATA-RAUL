@@ -41,7 +41,7 @@ router.all('/*', (req, res, next) => {
 });
 
 router.get('/', (req,res) => {
-    Post.find({}).populate('author').then(posts => {
+    Post.find({}).sort({date: -1}).populate('author').then(posts => {
         Category.find({}).then(categories => {
             return res.render('home/index', {posts, categories});
         }).catch(err => {
