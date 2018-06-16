@@ -28,26 +28,27 @@
 
         <!-- Comments Form -->
         {{#if post.allowComments}}
-            <div class="card my-4">
-                <h5 class="card-header">Dejar un comentario:</h5>
-                <div class="card-body">
-                    <form action="/admin/comments/" method="post">
-                        <div class="form-group">
-                            <textarea name = "body" class="form-control" rows="3"></textarea>
-                            <input type="hidden" name="postId" value="{{post.id}}">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Comentar</button>
-                    </form>
+            {{#if user}}
+                <div class="card my-4">
+                    <h5 class="card-header">Dejar un comentario:</h5>
+                    <div class="card-body">
+                        <form action="/admin/comments/" method="post">
+                            <div class="form-group">
+                                <textarea name = "body" class="form-control" rows="3"></textarea>
+                                <input type="hidden" name="postId" value="{{post.id}}">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Comentar</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-
+            {{/if}}
             <!-- Single Comment -->
             {{#if post.comments}}
                 {{#each post.comments}}
                     <div class="media mb-4">
                         <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                         <div class="media-body">
-                            <h5 class="mt-0">{{user}} {{user}} - {{formatDate date 'HH:mm:ss Do/MMMM/YYYY'}}</h5>
+                            <h5 class="mt-0">{{user.firstName}} {{user.lastName}} - {{formatDate date 'HH:mm:ss Do/MMMM/YYYY'}}</h5>
                             {{body}}
                         </div>
                     </div>
