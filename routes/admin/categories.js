@@ -46,7 +46,8 @@ router.delete('/:id', (req, res) => {
 });
 router.post('/create', (req, res) => {
     const category = new Category({
-        name: req.body.name
+        name: req.body.name,
+        user: req.user.id
     });
     category.save().then(savedCategory => {
         req.flash('success-message', `Categoría ${savedCategory.name} creada`);
